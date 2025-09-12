@@ -8,7 +8,7 @@ async function validateGetProductId(req, res, next){
 
 async function validateCreatProduct(req, res, next){
     const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body;
-    if (!name || !price || !image || !category || !size || !colors || isNew || !isSale) {
+    if (!name || !price || !image || !category || !size || !colors || !isNew || !isSale) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' });
     }
     next();
