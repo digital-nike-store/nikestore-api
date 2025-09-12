@@ -6,7 +6,7 @@ async function validateGetProductId(req, res, next){
     next();
 }
 
-async function validateCreatProduct(req, res, next){
+async function validateCreateProduct(req, res, next){
     const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body;
     if (!name || !price || !image || !category || !size || !colors || isNew === undefined || isSale === undefined) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' });
@@ -32,7 +32,7 @@ async function validateDeleteProduct(req, res, next){
 }
 
 module.exports = {
-    validateCreatProduct,
+    validateCreateProduct,
     validateUpdateProduct,
     validateDeleteProduct,
     validateGetProductId
