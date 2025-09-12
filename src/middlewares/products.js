@@ -8,7 +8,7 @@ async function validateGetProductId(req, res, next){
 
 async function validateCreatProduct(req, res, next){
     const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body;
-    if (!name || !price || !image || !category || !size || !colors || !isNew || !isSale) {
+    if (!name || !price || !image || !category || !size || !colors || isNew === undefined || isSale === undefined) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' });
     }
     next();
@@ -17,7 +17,7 @@ async function validateCreatProduct(req, res, next){
 async function validateUpdateProduct(req, res, next){
     const { id } = req.params;
     const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body;
-    if (!id || !name || !price || !image || !category || !size || !colors || isNew || !isSale) {
+    if (!id || !name || !price || !image || !category || !size || !colors || isNew === undefined || isSale === undefined) {
         return res.status(400).json({ error: 'Campos obrigatórios ausentes' });
     }
     next();
