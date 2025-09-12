@@ -13,6 +13,7 @@ async function getAllProducts(req, res) {
 
 async function getProductById(req, res) {  
     try {
+        const { id } = req.params;
         const product = await Products.findByPk(id);
         if (product) {
             res.status(200).json(product);
@@ -46,6 +47,7 @@ async function createProduct(req, res) {
 
 async function updateProduct(req, res) {
     try {
+        const { id } = req.params;
         const product = await Products.findByPk(id);
         if (product) {
             product.name = name;
@@ -71,6 +73,7 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
     try {
+        const { id } = req.params;
         const product = await Products.findByPk(id);
         if (product) {
             await product.destroy();
