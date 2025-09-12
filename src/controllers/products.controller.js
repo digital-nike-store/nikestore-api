@@ -11,8 +11,7 @@ async function getAllProducts(req, res) {
     
 }
 
-async function getProductById(req, res) {
-    const { id } = req.params;    
+async function getProductById(req, res) {  
     try {
         const product = await Products.findByPk(id);
         if (product) {
@@ -26,7 +25,6 @@ async function getProductById(req, res) {
 }
 
 async function createProduct(req, res) {
-    const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body;
     try {
         const newProduct = await Products.create({
             name,
@@ -47,8 +45,6 @@ async function createProduct(req, res) {
 }
 
 async function updateProduct(req, res) {
-    const { id } = req.params;
-    const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body;
     try {
         const product = await Products.findByPk(id);
         if (product) {
@@ -74,7 +70,6 @@ async function updateProduct(req, res) {
 }
 
 async function deleteProduct(req, res) {
-    const { id } = req.params;
     try {
         const product = await Products.findByPk(id);
         if (product) {
