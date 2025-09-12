@@ -5,7 +5,7 @@ const productsMiddleware = require('../middlewares/products');
 
 router.get('/products', productsController.getAllProducts);
 router.get('/products/:id', productsMiddleware.validateGetProductId, productsController.getProductById);
-router.post('/products', productsMiddleware.validateCreatProduct, productsController.createProduct);
+router.post('/products', productsMiddleware.validateCreateProduct, productsController.createProduct);
 router.put('/products/:id', productsMiddleware.validateUpdateProduct, productsController.updateProduct);
 router.delete('/products/:id', productsMiddleware.validateDeleteProduct, productsController.deleteProduct);
 
