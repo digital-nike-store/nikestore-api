@@ -31,7 +31,7 @@ const Products = sequelize.define('Products', {
         type: DataTypes.TEXT,
         allowNull: true,
     },
-    size: {
+    sizes: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
     },
