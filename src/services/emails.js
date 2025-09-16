@@ -22,7 +22,7 @@ router.post('/email', async (req, res) => {
         <h1 style="color: #333; font-size: 24px; margin-bottom: 20px;">Compra Confirmada!</h1>
         <p style="color: #555; font-size: 16px; line-height: 1.6;">Obrigado pela sua compra! Estamos felizes em confirmar que seu pedido foi realizado com sucesso. Confira os detalhes abaixo:</p>
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Produto:</strong> <span id="nome-produto">${email.name}o</span></p>
+            <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Produto:</strong> <span id="nome-produto">${email.name}</span></p>
             <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Valor do Produto:</strong> R$ <span id="valor-produto">${email.price}</span></p>
             <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Frete:</strong> R$ <span id="frete-produto">${email.frete}</span></p>
             <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Parcelas:</strong> <span id="quantidade-parcelas">${email.parcelas}</span></p>
