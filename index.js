@@ -9,6 +9,7 @@ const port = 3030;
 app.use(bodyParser.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
+
 app.listen(port , () => {
   console.log("A API esta sendo executada na porta 3030");
 });
