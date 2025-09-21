@@ -11,6 +11,21 @@ async function getAllProducts(req, res) {
     
 }
 
+async function getProductPromotions(req, res) {
+    try {
+        const products = await Products.findAll({
+            where: {
+                isSale: true
+            }
+        });
+        res.status(200).json(products);
+    }
+    catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar produtos em promoção' });
+    }
+    
+}
+
 async function getProductById(req, res) {  
     try {
         const { id } = req.params;
@@ -93,5 +108,6 @@ module.exports = {
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductPromotions
 };
