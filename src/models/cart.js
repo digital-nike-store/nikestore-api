@@ -1,25 +1,25 @@
-const {DataTyoes} = require('sequelize');
+const { DataTypes } = require('sequelize');
 const sequelize = require("../config/database");
 
-const Cart = sequelize.define('Cart',{
-    id:{
+const Cart = sequelize.define('Cart', {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    userId:{
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    status:{
+    status: {
         type: DataTypes.ENUM('active', 'completed', 'cancelled'),
         defaultValue: 'active'
     },
-    created_at:{
+    created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
-    updated_at:{
+    updated_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     }
@@ -27,28 +27,28 @@ const Cart = sequelize.define('Cart',{
 })
 
 const CartItem = sequelize.define('CartItem', {
-    id:{
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    cartId:{
+    cartId: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    productId:{
+    productId: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    quantity:{
+    quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    unit_price:{
-        type: DataTypes.DECIMAL(10,2),
+    unit_price: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
-    size:{
+    size: {
         type: DataTypes.STRING,
         allowNull: true
     },

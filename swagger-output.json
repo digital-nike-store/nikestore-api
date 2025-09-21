@@ -2,16 +2,430 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "API Animes Express",
-    "description": "Esta documentação descreve a API da Animes Express, uma plataforma de chats para animes."
+    "title": "API Nike Store",
+    "description": "API acadêmica para simulação de ecommerce com fluxo de pagamentos."
   },
   "servers": [
     {
       "url": "http://localhost:3030"
     }
   ],
-  "paths": {},
+  "paths": {
+    "/payments/": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Criar um pagamento",
+        "description": "Cria um pagamento e inicia o processamento mockado.",
+        "responses": {
+          "201": {
+            "description": "Pagamento iniciado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/payments/{id}": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Consultar um pagamento",
+        "description": "Busca os detalhes de um pagamento pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do pagamento"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes do pagamento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pagamento não encontrado"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/payments/callback": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Callback de pagamento",
+        "description": "Atualiza o status de um pagamento através de um webhook simulado.",
+        "responses": {
+          "200": {
+            "description": "Status atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentCallbackResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaymentCallbackInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/products": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "any"
+                  },
+                  "price": {
+                    "example": "any"
+                  },
+                  "originalPrice": {
+                    "example": "any"
+                  },
+                  "image": {
+                    "example": "any"
+                  },
+                  "category": {
+                    "example": "any"
+                  },
+                  "description": {
+                    "example": "any"
+                  },
+                  "size": {
+                    "example": "any"
+                  },
+                  "colors": {
+                    "example": "any"
+                  },
+                  "isNew": {
+                    "example": "any"
+                  },
+                  "isSale": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/products/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "any"
+                  },
+                  "price": {
+                    "example": "any"
+                  },
+                  "originalPrice": {
+                    "example": "any"
+                  },
+                  "image": {
+                    "example": "any"
+                  },
+                  "category": {
+                    "example": "any"
+                  },
+                  "description": {
+                    "example": "any"
+                  },
+                  "size": {
+                    "example": "any"
+                  },
+                  "colors": {
+                    "example": "any"
+                  },
+                  "isNew": {
+                    "example": "any"
+                  },
+                  "isSale": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
   "components": {
-    "schemas": {}
+    "schemas": {
+      "PaymentInput": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "example": 2500
+          },
+          "currency": {
+            "type": "string",
+            "example": "BRL"
+          },
+          "method": {
+            "type": "string",
+            "example": "PIX"
+          },
+          "installments": {
+            "type": "number",
+            "example": 1
+          }
+        },
+        "required": [
+          "amount",
+          "currency",
+          "method",
+          "installments"
+        ]
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "amount": {
+            "type": "number",
+            "example": 1500
+          },
+          "currency": {
+            "type": "string",
+            "example": "BRL"
+          },
+          "method": {
+            "type": "string",
+            "example": "CC"
+          },
+          "status": {
+            "type": "string",
+            "example": "PENDING"
+          },
+          "installments": {
+            "type": "number",
+            "example": 3
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2025-09-16T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2025-09-16T12:05:00Z"
+          }
+        }
+      },
+      "PaymentResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Pagamento iniciado"
+          },
+          "payment": {
+            "$ref": "#/components/schemas/Payment"
+          }
+        }
+      },
+      "PaymentCallbackInput": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "status": {
+            "type": "string",
+            "example": "PAID"
+          }
+        },
+        "required": [
+          "id",
+          "status"
+        ]
+      },
+      "PaymentCallbackResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Pagamento 1 atualizado para PAID"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
   }
 }
