@@ -39,3 +39,7 @@ async function validateCreateUser(req, res, next){
 
     next(); // Chama o próximo middleware ou controlador
 }
+
+module.exports = {
+    validateCreateUser
+}
