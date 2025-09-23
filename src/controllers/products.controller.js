@@ -1,14 +1,14 @@
-const { Products} = require('../models');
+const { Products } = require('../models');
 
 async function getAllProducts(req, res) {
     try {
         const products = await Products.findAll();
-        res.status(200).json(products);
+        res.status(200).send(products);
     }
     catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar produtos' });
+        res.status(500).send({ error: 'Erro ao buscar produtos' });
     }
-    
+
 }
 
 async function getProductPromotions(req, res) {
@@ -18,25 +18,25 @@ async function getProductPromotions(req, res) {
                 isSale: true
             }
         });
-        res.status(200).json(products);
+        res.status(200).send(products);
     }
     catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar produtos em promoção' });
+        res.status(500).send({ error: 'Erro ao buscar produtos em promoção' });
     }
-    
+
 }
 
-async function getProductById(req, res) {  
+async function getProductById(req, res) {
     try {
         const { id } = req.params;
         const product = await Products.findByPk(id);
         if (product) {
-            res.status(200).json(product);
+            res.status(200).send(product);
         } else {
-            res.status(404).json({ error: 'Produto não encontrado' });
+            res.status(404).send({ error: 'Produto não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar produto' });
+        res.status(500).send({ error: 'Erro ao buscar produto' });
     }
 }
 
@@ -55,9 +55,9 @@ async function createProduct(req, res) {
             isNew,
             isSale
         });
-        res.status(201).json(newProduct);
+        res.status(201).send(newProduct);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar produto' });
+        res.status(500).send({ error: 'Erro ao criar produto' });
     }
 }
 
@@ -79,12 +79,12 @@ async function updateProduct(req, res) {
             product.isSale = isSale;
 
             await product.save();
-            res.status(200).json(product);
+            res.status(200).send(product);
         } else {
-            res.status(404).json({ error: 'Produto não encontrado' });
+            res.status(404).send({ error: 'Produto não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar produto' });
+        res.status(500).send({ error: 'Erro ao atualizar produto' });
     }
 }
 
@@ -96,10 +96,10 @@ async function deleteProduct(req, res) {
             await product.destroy();
             res.status(204).send();
         } else {
-            res.status(404).json({ error: 'Produto não encontrado' });
+            res.status(404).send({ error: 'Produto não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao deletar produto' });
+        res.status(500).send({ error: 'Erro ao deletar produto' });
     }
 }
 
