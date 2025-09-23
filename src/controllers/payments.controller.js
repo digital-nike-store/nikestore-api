@@ -1,4 +1,6 @@
-const { Payments } = require("../models");
+const { Payments, Orders } = require("../models");
+const { sendNewOrderEmail } = require("../services/emails");
+const { createPaymentService } = require("../services/payment.service");
 const { processPaymentMock } = require("../services/processPaymentMock");
 
 async function createPayment(req, res) {
@@ -9,19 +11,15 @@ async function createPayment(req, res) {
     */
 
     try {
-        const payment = await Payments.create({
-            ...req.body,
-            status: "PENDING",
-        })
+        const payment = await createPaymentService(req.body);
+        processPaymentMock(payment);
 
-        processPaymentMock(payment)
- 
         res.status(201).send({
             message: "Pagamento iniciado",
             payment,
-        })
+        });
     } catch (err) {
-        res.status(500).send({ error: "Erro ao iniciar pagamento" })
+        res.status(500).send({ error: "Erro ao iniciar pagamento" });
     }
 
     /*
@@ -39,6 +37,20 @@ async function createPayment(req, res) {
         content: {
             "application/json": {
                 schema: { $ref: "#/components/schemas/PaymentResponse" }
+            }
+        }
+    }
+
+    #swagger.responses[500] = {
+        description: "Erro ao consultar detalhes do pagamento",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        error: { type: "string", example: "Erro ao iniciar o pagamento" }
+                    }
+                }
             }
         }
     }
@@ -62,26 +74,46 @@ async function getPaymentDetails(req, res) {
 
         res.send({ payment })
     } catch (err) {
-        res.status(500).send({ error: "Erro ao consultar status" })
+        res.status(500).send({ error: "Erro ao consultar detalhes do pagamento" })
     }
 
     /*
-    #swagger.parameters['id'] = {
-        in: 'path',
-        description: 'ID do pagamento',
-        required: true,
-        schema: { type: 'integer' }
-    }
- 
     #swagger.responses[200] = {
         description: "Detalhes do pagamento",
         content: {
             "application/json": {
-                schema: { $ref: "#/components/schemas/PaymentResponse" }
+                schema: { $ref: "#/components/schemas/Payment" }
             }
         }
     }
-    #swagger.responses[404] = { description: "Pagamento não encontrado" }
+
+    #swagger.responses[404] = {
+        description: "Pagamento não encontrado",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        error: { type: "string", example: "Pagamento não encontrado" }
+                    }
+                }
+            }
+        }
+    }
+
+    #swagger.responses[500] = {
+        description: "Erro ao consultar detalhes do pagamento",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        error: { type: "string", example: "Erro ao consultar detalhes do pagamento" }
+                    }
+                }
+            }
+        }
+    }
     */
 }
 
@@ -94,17 +126,21 @@ async function paymentCallback(req, res) {
 
     try {
         const { id, status } = req.body
-        const payment = await Payments.findByPk(id)
+        const payment = await Payments.findByPk(id, { include: [{ model: Orders, as: "order" }] })
 
         if (!payment) {
             return res.status(404).send({ error: "Pagamento não encontrado" })
         }
 
         await payment.update({ status })
+
+        await sendNewOrderEmail(payment.order, payment).catch(err => console.log(err.message))
+
         res.send({ message: `Pagamento ${id} atualizado para ${status}` })
     } catch (err) {
-        res.status(500).send({ error: "Erro ao processar callback" })
+        res.status(500).send({ error: "Erro ao processar o pagamento" });
     }
+
 
     /*
     #swagger.requestBody = {
@@ -121,6 +157,34 @@ async function paymentCallback(req, res) {
         content: {
             "application/json": {
                 schema: { $ref: "#/components/schemas/PaymentCallbackResponse" }
+            }
+        }
+    }
+        
+    #swagger.responses[404] = {
+        description: "Pagamento não encontrado",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        error: { type: "string", example: "Pagamento não encontrado" }
+                    }
+                }
+            }
+        }
+    }
+
+    #swagger.responses[500] = {
+        description: "Erro ao consultar detalhes do pagamento",
+        content: {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        error: { type: "string", example: "Erro ao processar o pagamento" }
+                    }
+                }
             }
         }
     }

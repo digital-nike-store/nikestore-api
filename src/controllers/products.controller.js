@@ -1,32 +1,48 @@
-const { Products} = require('../models');
+const { Products } = require('../models');
 
 async function getAllProducts(req, res) {
     try {
         const products = await Products.findAll();
-        res.status(200).json(products);
+        res.status(200).send(products);
     }
     catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar produtos' });
+        res.status(500).send({ error: 'Erro ao buscar produtos' });
     }
+
 }
 
-async function getProductById(req, res) {  
+async function getProductPromotions(req, res) {
+    try {
+        const products = await Products.findAll({
+            where: {
+                isSale: true
+            }
+        });
+        res.status(200).send(products);
+    }
+    catch (error) {
+        res.status(500).send({ error: 'Erro ao buscar produtos em promoção' });
+    }
+
+}
+
+async function getProductById(req, res) {
     try {
         const { id } = req.params;
         const product = await Products.findByPk(id);
         if (product) {
-            res.status(200).json(product);
+            res.status(200).send(product);
         } else {
-            res.status(404).json({ error: 'Produto não encontrado' });
+            res.status(404).send({ error: 'Produto não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar produto' });
+        res.status(500).send({ error: 'Erro ao buscar produto' });
     }
 }
 
 async function createProduct(req, res) {
     try {
-        const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body
+        const { name, price, originalPrice, image, category, description, sizes, colors, isNew, isSale } = req.body
         const newProduct = await Products.create({
             name,
             price,
@@ -34,23 +50,22 @@ async function createProduct(req, res) {
             image,
             category,
             description,
-            size,
+            sizes,
             colors,
             isNew,
             isSale
         });
-        res.status(201).json(newProduct);
+        res.status(201).send(newProduct);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar produto' });
+        res.status(500).send({ error: 'Erro ao criar produto' });
     }
 }
 
 async function updateProduct(req, res) {
     try {
         const { id } = req.params;
-        const { name, price, originalPrice, image, category, description, size, colors, isNew, isSale } = req.body
+        const { name, price, originalPrice, image, category, description, sizes, colors, isNew, isSale } = req.body
         const product = await Products.findByPk(id);
-        
         if (product) {
             product.name = name;
             product.price = price;
@@ -58,18 +73,18 @@ async function updateProduct(req, res) {
             product.image = image;
             product.category = category;
             product.description = description;
-            product.size = size;
+            product.sizes = sizes;
             product.colors = colors;
             product.isNew = isNew;
             product.isSale = isSale;
 
             await product.save();
-            res.status(200).json(product);
+            res.status(200).send(product);
         } else {
-            res.status(404).json({ error: 'Produto não encontrado' });
+            res.status(404).send({ error: 'Produto não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar produto' });
+        res.status(500).send({ error: 'Erro ao atualizar produto' });
     }
 }
 
@@ -81,10 +96,10 @@ async function deleteProduct(req, res) {
             await product.destroy();
             res.status(204).send();
         } else {
-            res.status(404).json({ error: 'Produto não encontrado' });
+            res.status(404).send({ error: 'Produto não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao deletar produto' });
+        res.status(500).send({ error: 'Erro ao deletar produto' });
     }
 }
 
@@ -93,5 +108,6 @@ module.exports = {
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductPromotions
 };

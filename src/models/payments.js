@@ -1,6 +1,7 @@
 const sequelize = require('../config/database');
 const { DataTypes } = require('sequelize');
 const { ALLOWED_CURRENCIES, ALLOWED_METHODS, ALLOWED_STATUS, MAX_INSTALLMENTS } = require('../constants/payments');
+const Orders = require('./orders');
 
 const Payments = sequelize.define('Payments', {
     id: {
@@ -37,5 +38,8 @@ const Payments = sequelize.define('Payments', {
         },
     },
 });
+
+Orders.hasOne(Payments, { foreignKey: "orderId", as: "payment" });
+Payments.belongsTo(Orders, { foreignKey: "orderId", as: "order" });
 
 module.exports = Payments;

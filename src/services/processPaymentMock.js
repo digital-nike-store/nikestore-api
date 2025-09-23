@@ -1,13 +1,12 @@
-const axios = require("axios");
-
 async function processPaymentMock(payment) {
     setTimeout(async () => {
         try {
             const newStatus = Math.random() > 0.2 ? "PAID" : "FAILED"
 
-            await axios.post("http://localhost:3030/payments/callback", {
-                id: payment.id,
-                status: newStatus,
+            await fetch("http://localhost:3030/api/payments/callback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: payment.id, status: newStatus })
             })
 
             console.log(`Pagamento ${payment.id} simulado → status: ${newStatus}`)
