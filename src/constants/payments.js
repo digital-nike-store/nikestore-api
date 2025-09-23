@@ -1,0 +1,6 @@
+module.exports = {
+  ALLOWED_CURRENCIES: ["BRL", "USD", "EUR"],
+  ALLOWED_METHODS: ["CC", "CD", "PIX", "BOLETO"],
+  ALLOWED_STATUS: ["PENDING", "PAID", "FAILED"],
+  MAX_INSTALLMENTS: 12,
+};
