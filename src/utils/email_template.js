@@ -6,7 +6,7 @@ function EMAIL_NEW_ORDER_TEMPLATE(form) {
         <p style="color: #555; font-size: 16px; line-height: 1.6;">Obrigado pela sua compra! Estamos felizes em confirmar que seu pedido foi realizado com sucesso. Confira os detalhes abaixo:</p>
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Cliente:</strong> <span id="nome-produto">${form.fullName}</span></p>
-            <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Valor da compra:</strong> R$ <span id="valor-produto">${form.total}</span></p>
+            <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Valor da compra:</strong> R$ <span id="valor-produto">${Number(form.total - form.shippingCost).toFixed(2)}</span></p>
             <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Frete:</strong> R$ <span id="frete-produto">${form.shippingCost}</span></p>
             <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Parcelas:</strong> <span id="quantidade-parcelas">${form.installments}</span></p>
             <p style="color: #333; font-size: 16px; margin: 10px 0;"><strong>Valor por Parcela:</strong> R$ <span id="valor-parcela">${((Number(form.total) + form.shippingCost) / Number(form.installments)).toFixed(2)}</span></p>

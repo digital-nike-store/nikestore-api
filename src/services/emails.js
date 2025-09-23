@@ -16,10 +16,12 @@ async function sendNewOrderEmail(order, payment) {
         installments: payment.installments || 1
     }
 
+    console.log(form.email)
+
     if (payment.status === "PAID") {
         emailContent = {
             to: form.email,
-            from: 'denilsonbezerra.10@gmail.com',
+            from: 'denilsonbezerra.10@hotmail.com',
             subject: 'Compra efetuada com sucesso',
             html: juice(EMAIL_NEW_ORDER_TEMPLATE(form)),
         }
@@ -28,7 +30,7 @@ async function sendNewOrderEmail(order, payment) {
     if (payment.status === "FAILED") {
         emailContent = {
             to: form.email,
-            from: 'denilsonbezerra.10@gmail.com',
+            from: 'denilsonbezerra.10@hotmail.com',
             subject: 'Compra falhou',
             html: juice(EMAIL_NEW_FAILED_ORDER_TEMPLATE),
         }
