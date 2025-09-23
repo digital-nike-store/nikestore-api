@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 
 const port = 3030;
 
-/* Middlewares */
 app.use(bodyParser.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
